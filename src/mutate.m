@@ -1,7 +1,9 @@
-function chromosome = mutate(chromosome, boundary)
-    mult = 1000;
-    boundary = boundary*mult;
+function ret = mutate(chromosome, sources, boundary)
+    ret = [];
     for i=1:length(chromosome)               
-        chromosome(i) = randi(boundary(i,:))/mult;
+        chromosome(i) = randi([0, 1]);
+    end
+    if check_bounds(chromosome, sources, boundary)
+        ret = chromosome;
     end
 end 

@@ -22,12 +22,12 @@ sources = [source_1; source_2; source_3; source_4];
 % Optimizations:
 %               lower emission is better
 %               lower cost is better
-
+sortrows(sources)
 % define ranges
-format = zeros(3,2);
-for i=1:length(sources)
-    format(j,:) = [min(sources(:,j)), max(sources(:,j))]
-end
+% format = zeros(3,2);
+% for i=1:length(sources)
+%     format(j,:) = [min(sources(:,j)), max(sources(:,j))]
+% end
 
 
 % chromosome format -------------------------------------------------------

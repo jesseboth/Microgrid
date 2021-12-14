@@ -1,5 +1,6 @@
-    pop=100;
-m_rate = .1;
+pop=500;        % population
+m_rate = .05;   % mutation rate
+c_pt = 3;       % crossover point
 % chromosome format -------------------------------------------------------
 power = 1;
 cost = 2; 
@@ -10,27 +11,25 @@ source_3 = [15, .01, .02];
 source_4 = [50, .02, .04];
 sources = [source_1; source_2; source_3; source_4];
 % Optimizations:
-%               lower emission is better
-%               lower cost is better
-
+%               lower cost is better - [.15, 24] - [.01, .2] $
+%               lower emission is better - [.3, 6] - [.01, .05] tons
 % define ranges
 [x, num_genes] = size(sources);
-boundary = zeros(num_genes,2);
+boundaries = zeros(num_genes,2);
 for i=1:num_genes    
-    boundary(i,:) = [min(sources(:,i)), max(sources(:,i))];
+    boundaries(i,:) = [min(sources(:,i)), max(sources(:,i))];
 end
  
 % chromosome format -------------------------------------------------------
-c = chromosome_gen(pop, boundary);
-v = mutation(pop, .1);
+c = chromosome_gen(pop, sources);
+v = mutation(pop, m_rate);
 
-m = mutate([1, 2, 3], boundary);
+m = mutate(c(1,:), sources, boundaries);
+child = crossover(c, pop, sources, boundaries, m_rate, c_pt);
 
-child = crossover(c(15,:), c(37,:), pop, .1, randi(2));
+out = econ_fitness(c(15, :), sources)
+out = enviro_fitness(c(15, :), sources)
 
-c(15, cost);
-out = econ_fitness(boundary, c(15, 2));
-
-fit = fitness(boundary, c, 73);
-% xyz = random_selection(50, c);
-xyz = elitism(80, c, fit);
+fit = fitness(c,sources, goal_power);
+% % xyz = random_selection(50, c);
+% xyz = elitism(80, c, fit);
