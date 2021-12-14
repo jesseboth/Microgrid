@@ -4,6 +4,6 @@ function fit = find_fitness(min, max, gene)
         fit = 0;
     else
         m2 = max - min;
-        fit = 1 - (m1/m2);
+        fit = (m1/m2);
     end
 end

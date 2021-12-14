@@ -34,10 +34,8 @@ function children = crossover(chromosomes, pop, sources, boundary, rate, cross)
     rm_i = 1;
     for i = 1:length(children)        
         if ~check_bounds(children(rm_i,:), sources, boundary)
-            % ret(ret_i,:) = children(i,:);
             children(rm_i,:) = [];
             rm_i = rm_i-1;
-            % ret_i = ret_i+1;
         end
         rm_i = rm_i+1;
     end

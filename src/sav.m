@@ -42,3 +42,33 @@ for gen = 1:maxGen
     
     mutate(mRate, pop, batChg, p, Xpop, t);
 end
+
+% function chromosomes = chromosome_gen(pop, sources)
+%     [x, num_genes] = size(sources);
+%     chromosomes = zeros(pop, num_genes);
+
+%     % mult = 1000;
+%     % sources = sources*mult;
+%     for i=1:pop
+%         % for j=1:num_genes       
+%             p = randi([min(sources(:, 1)), max(sources(:,1))]); 
+%             s = find_source(p, sources);
+%             chromosomes(i, 1) = p;
+%             chromosomes(i, 2) = p*sources(s, 2);
+%             chromosomes(i, 3) = p*sources(s, 3);
+%         % end
+%     end
+
+% end
+
+% function ret = find_source(p, sources)
+%     idx = 1;
+%     max = length(sources);
+%     for i = 1:max
+%         if(p <= sources(i, 1))
+%             break
+%         end
+%         idx= idx+1;
+%     end 
+%     ret = randi([idx, max]);
+% end

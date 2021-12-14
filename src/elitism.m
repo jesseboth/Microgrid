@@ -9,13 +9,14 @@ function ret = elitism(pop, chromosomes, fitness)
 
         for i=diff+1:cur_pop
             m = max(rm(:,2));
-            if fitness(i) < m                   
-                x = indexof(rm(:,2), m);
+            if isnan(fitness(i)) || fitness(i) > m                   
+                fitness(i)
+                x = indexof(rm(:,2), m)
                 rm(x, 1) = i;
                 rm(x, 2) = fitness(i);
             end
         end
-
+        rm
         j = 1;
         for i=1:cur_pop
             if ~ismember(i, rm)               

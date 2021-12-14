@@ -14,8 +14,10 @@ function chromosomes = chromosome_gen(pop, sources)
     % mult = 1000;
     % sources = sources*mult;
     for i=1:pop
-        for j=1:num_sources      
-            chromosomes(i, j) = randi([0, 1]);
+        for j=1:num_sources
+            if randi([0, 1]) > 0
+                chromosomes(i, j) = randi([0, sources(j, 1)]);
+            end      
         end
     end
 
