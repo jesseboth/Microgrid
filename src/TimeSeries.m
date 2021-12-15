@@ -13,13 +13,13 @@ realistic. x/inc will determine how many days are output in the final
 matrix.
 %}
 
-function TimeSeries()
+function series = TimeSeries()
     load_range = readtable("MaxMin.csv");
     load_range = load_range{:,:};
 
-    x = 120;
+    x = 100;
     y = 24;
-    inc = 20; % number for rows is x/inc | the greater this ratio, the smoother the plot will be
+    inc = 100; % number for rows is x/inc | the greater this ratio, the smoother the plot will be
 
 
     ts = zeros(x, y);
@@ -33,18 +33,18 @@ function TimeSeries()
 
     row = 1;
     series = zeros((x/inc)-1, y);
-    for i = 1:inc:x-inc
-        get = ts(i:i+inc, :);        
+    for i = 1:inc:x
+        get = ts(i:i+inc-1, :);        
         for j = 1:y         
             series(row, j) = round(mean(get(:,j)));
         end
         row = row+1;
     end
     
-    for i = 1:(x/inc)-1
-        plot(series(i,:));
-        hold on
-    end
+    % for i = 1:(x/inc)-1
+    %     plot(series(i,:));
+    %     hold on
+    % end
     hold off
     writematrix(series,'TimeSeries.csv');
 %     type 'TimeSeries.csv';

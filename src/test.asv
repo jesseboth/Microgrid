@@ -130,12 +130,12 @@ for i=1:length(timeseries)
     output = sum(c(best_i,:));
 
     vector = store_best(vector, fit, c, i);
-    econ(i) = econ_fitness(c(best_i, :), sources, boundaries, weights);
-    enviro(i) = enviro_fitness(c(best_i, :), sources, boundaries, weights);
+    econ(i) = econ_fitness(c(best_i, :), sources, boundaries, weights)
+    enviro(i) = enviro_fitness(c(best_i, :), sources, boundaries, weights)
     
     % c(best_i,:)
     [timeseries(i), output, best];
 end
-enviro_plot(enviro);
-econ_plot(econ);
+econ
+enviro
 power_load_vs_time(vector, timeseries);
