@@ -13,9 +13,6 @@ function vector = fitness(chromosomes, sources, boundaries, weights, goal_power)
         f2 = econ_fitness(chromosomes(i,:), sources, boundaries, weights);
         f3 = enviro_fitness(chromosomes(i,:), sources, boundaries, weights);
 
-        % vector(i) = abs((((f1*f2)+(f1*f3))/goal_power));
-        % vector(i) = (f1*f2*f3)/goal_power;
-
         vector(i) = (((f2+f3)/2) * (f1/goal_power))/goal_power * 10;
     end
 
