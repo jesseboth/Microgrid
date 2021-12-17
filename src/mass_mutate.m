@@ -6,16 +6,19 @@
             boundaries - defined boundaries
             m_rate -    mutation rate
     output:
-            c - vector of mutate chromosomes
+            ret - vector of chromosmes and mutated chromosomes
 %}
-function c = mass_mutate(c, pop, sources, boundaries, m_rate, ~)
+function ret = mass_mutate(c, pop, sources, boundaries, m_rate, ~)
 
     % find which chromosomes to mutate
     which = mutation(pop, m_rate);
+    new_c = zeros(pop*m_rate, length(sources));
     for i =1:length(which)
         %mutate if necessary
         if (which(i))
-            c(i,:) = mutate(c(i,:), sources, boundaries);
+            new_c(i,:) = mutate(c(i,:), sources, boundaries);
         end
     end
+    % return chromosomes with appended mutations
+    ret = [chromosomes; children]
 end
