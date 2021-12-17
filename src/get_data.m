@@ -31,5 +31,5 @@ function get_data(loads, chromosomes, sources)
 
     fprintf("Excess power produced: %dW\n", ret(excess));
     fprintf("Total cost for the day: $%.2f\n", ret(cost));
-    fprintf("Total emission for the day %.2f tons\n", ret(emission))
+    fprintf("Total emission for the day: %.2f tons\n", ret(emission))
 end
