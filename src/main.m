@@ -1,3 +1,46 @@
+%{
+    Microgrid Controller
+    Author: Jesse Both
+    
+    Description:
+        A microgrid controller to used to optimize the economic
+        and environmental factors the are defined for each source.
+
+    Instructions:
+        1. Move all files into workspace
+        2. Run Main
+        3. Complete prompts in terminal
+
+    Input:
+        - Reproduction Method
+        - Survival Method
+    
+    Ouput:
+        - Excess power
+        - Total cost for day
+        - Total emissions for day
+
+        - plot for economic factor
+        - plot for environmental factor
+        - plot for power & load vs time
+        - plot for calculation time
+
+    Optimizations:
+        - lower cost is better:     $[.15, 6.55]
+        - lower emissions is better: [.15, 3.75] tons     
+
+    Constraints:
+        - No black outs
+        - Each chromsome must be within:
+            * power range
+            * cost range
+            * emissions range
+
+    Sources:
+        Matlab Docs 
+        [https://www.mathworks.com/help/matlab/referencelist.html?type=function]
+%}
+
 clear
 clc
 close all
@@ -7,7 +50,7 @@ pop=100;            % population
 m_rate = .1;        % mutation rate
 c_pt = 2;           % crossover point
 good_enough = .08;  % when to stop
-
+weights = [1, .6, .4];
 % chromosome format -------------------------------------------------------
 power = 1;
 cost = 2; 
@@ -18,19 +61,13 @@ source_3 = [15, .01, .02];
 source_4 = [50, .02, .04];
 sources = [source_1; source_2; source_3; source_4];
 
-% Optimizations:
-%               lower cost is better -     $[.15, 6.55]
-%               lower emission is better -  [.15, 3.75] tons 
-
 % define ranges
 [num_sources, num_genes] = size(sources);
 boundaries = zeros(num_genes, 2);
 boundaries(1,:) = [15, 100];        % requested power range
 boundaries(2,:) = [.15, 6.55];      % minimum cost to get max power
 boundaries(3,:) = [.15, 3.75];      % minimum emissions to get max power
- 
-weights = [1, .6, .4];
-% chromosome format -------------------------------------------------------
+ % chromosome format -------------------------------------------------------
 
 
 % get user information ----------------------------------------------------
