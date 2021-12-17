@@ -1,3 +1,8 @@
+%{
+    plot the calculation time for the system
+    input: 
+            calc: vector of times
+%}
 function calculation_plot(calc)
     figure(4);
     hold on

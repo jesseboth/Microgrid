@@ -1,15 +1,24 @@
+%{
+    Perform a mutation on a single chromosome.
+    inputs:
+            chromosome - a single chromosome
+            sources -    defined sources
+            boundary -   defined boundary   
+    outputs:
+            ret -        mutated chromosome or []
+%}
 function ret = mutate(chromosome, sources, boundary)
     ret = [];
-    
+
+    new_c = chromosome;     % initialize new chromosomes
     for i=1:length(sources)
-        if randi([0, 1]) > 0
-            chromosome(i) = randi([0, sources(i, 1)]);
-        end      
+            % get new genes
+            new_c(i) = randi([1, sources(i, 1)]);
     end
 
-
-    ret = [];
-    if check_bounds(chromosome, sources, boundary)
-        ret = chromosome;
+    % check if it is a feasible chromosome
+    ret = chromosome;
+    if check_bounds(new_c, sources, boundary)
+        ret = new_c;
     end
 end 

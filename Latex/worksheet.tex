@@ -4,10 +4,11 @@
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage[font=small,skip=0pt]{caption}
+\usepackage{amsmath}
 \pagestyle{fancy}
 
 \fancyhead[LE,RO]{Jesse Both}
-\fancyhead[LO,RE]{ASSIGNMENT}
+\fancyhead[LO,RE]{Microgrid Worksheet}
 
 
 \hypersetup{
@@ -46,19 +47,28 @@
 %         \tableofcontents
 %     \end{center}
 % \newpage
-\setcounter{secnumdepth}{-1}
 
-\section{Step 1}
+\section{Design Parameters}
     \subsection{Microgrid Block Diagram}
     \begin{figure}[h!]
     \begin{center}
-        \includegraphics[height=8cm]{graphics/block_diagram.png}
+        \includegraphics[height=6cm]{graphics/block_diagram.png}
     \end{center}
     \caption{Block Diagram}
     \label{fig:block}
     \end{figure}
 
     \subsection{Load Time Series}
+    Here is a rough idea of what the load time series will look like. Due to its random generation it will change. slightly after each run.
+    \begin{figure}[h!]
+        \begin{center}
+            \includegraphics[height=6cm]{graphics/load_timeseries.png}
+        \end{center}
+        \caption{Load}
+        \label{fig:load}
+    \end{figure}
+
+    \subsection{Load Time Series Generation}
     This time series was designed by deciding with the idea that the power is being sent to a residential area.  The usage would be low in the middle
     of the night and high when residents are home from work.  It would gradually
     increase/decrease throughout the other parts of the day.  The assumption
@@ -70,37 +80,108 @@
 
     \subsection{Source Chromosome Format}
     The chromosome format for each source is
-    \[[power, cost, emission]\]
+    \[[cost, emission]\]
 
-    The gene boundaries are:
+    \subsection{Gene Boundaries}
+    Each gene has a power boundary corresponding to its potential source output.  The source can not output more than its limit.
     \begin{itemize}
-        \item \(15W \leq power \leq 120W\)
-        \item \(\$.01 \leq cost \leq \$.2\)
-        \item \(.01 tons \leq emission \leq .04 tons\)
+        \item Source 1: [0, 20]
+        \item Source 2: [0, 120]
+        \item Source 3: [0, 15]
+        \item Source 4: [0, 50]
     \end{itemize}
 
-    \subsection{Fitness Optimization}
+    \newpage
+    \subsection{Economic Optimization}
     Economic optimization means that lower cost is better.  If the requirements can be met with lower cost this would be a beneficial economic adjustment.
 
     Economic boundary for fitness function:
-    \textbf{TODO}
-    \newline 
+    \begin{itemize}
+        \item \(\$.15 \leq cost \leq \$6.55\)
+        \begin{itemize}
+            \item This range was chosen because the minimum is the least possible cost based on the power constraints and the max is the best possible cost plus a little extra due to the difficulty of finding the "best" solution in a GA.
+        \end{itemize}
+    \end{itemize}
 
+    \subsection{Economic Fitness Boundaries}
+    The economic fitness is ideally on a scale of 0 to 1, 0 being the most fit, but there will be some cases early on that goes off scale.
+    \[W*\frac{cost-min}{max-min}\]
+    
+    \subsection{Environmental Optimization}
     Environmental optimization would imply that less emissions produced would be better for the environment.
 
     Environmental boundary for fitness function:
-    \textbf{TODO}
-    \newline 
-
-    Another optimization that is required is the amount of power is delivered.  If there is not enough power being delivered then outages will occur.
-    \textbf{TODO}
-
-    \subsection{Defined Constants}
+    \begin{itemize}
+        \item \(.15  tons \leq emission \leq 3.75  tons\)
         \begin{itemize}
-            \item Population size: 100
-            \item Mutation rate: .1
-            \item Crossover point:
-            \item Stopping point: fitness > .9
+            \item Again, the lower bound is the least possible emission and the upper bound is the best plus a little extra.
         \end{itemize}
+    \end{itemize}
+
+    \subsection{Environmental Fitness Boundaries}
+    The environmental fitness is ideally on a scale of 0 to 1, 0 being the most fit, but there will be some cases early on that goes off scale.
+    After the emissions for the chromosome was calculated equation that was used to determine the fitness is:
+    \[W*\frac{emssion-min}{max-min}\]
+
+    \subsection{Boundary Function for Load}
+    \textbf{FIX}
+    \[ \begin{cases} 
+        0 & x < 15 \\
+        1 & 15\leq x\leq 100 \\
+        0 & x > 100 \\
+     \end{cases}
+  \]
+
+    \subsection{Population Size}
+    \begin{itemize}
+        \item Population size: 100    
+    \end{itemize}
+    \subsection{Mutation Rate}
+    \begin{itemize}
+        \item Mutation rate: .1
+    \end{itemize}
+    \subsection{Crossover Point}
+    \begin{itemize}
+        \item Crossover point: 2
+    \end{itemize}
+    \subsection{Stopping Condition}
+    \begin{itemize}
+        \item Stopping point: fitness \(\leq .08\)
+    \end{itemize}
+
+\setcounter{section}{2}
+\section{Design Implementation}
+    \subsection{chromosome\_gen}
+    \subsection{mutation}
+    \subsection{mutate}
+    \subsection{crossover}
+    \subsection{econ\_fitness}
+    \subsection{enviro\_fitness}
+    \subsection{fitness}
+    \subsection{}
+        \subsubsection{random\_selection}
+        \subsubsection{elitism}
+    \subsection{stop\_condition}
+    \subsection{store\_best}
+    \subsection{power\_plot}
+    \subsection{econ\_plot}
+    \subsection{enviro\_plot}
+    \subsection{calculation\_plot}
+    \subsection{get\_data}
+
+
+\setcounter{section}{4}
+\section{Analysis}
+-
+
+\section{Recommendation}
+    \subsubsection{Improvements}
+    The initial chromosome generation could be optimized to use more realistic values and diverse.  Crossover benefits from larger data sets with more diversity as a starting point.  If the original chromosomes were intentionally more diverse there could be better results.  In the case that the good enough value is too low or the data set is not diverse enough the algorithm will run out of solutions to make it to the stopping condition.
+
+
+    \subsubsection{Concerns to Be Addressed}
+    One concern that is not addressed in this system is that there is no value for the maximum heat that the sources can produce before failure.  With this additional constraint there may be times were it would be more logical to increase cost and/or emissions in order to cool a source that has done a lot of work.  With the way the system is set up now, a source could go all day without any down time while another source doesn't do much.  The lack of this information could lead to catastrophic failure.
+
+    Another concern is that there is no set limit how much extra power can be produced.  With no location for storage, the system could over load the load and could potentially cause fires or explosions depending on how much excess power is sent to the load.
 
 \end{document}
